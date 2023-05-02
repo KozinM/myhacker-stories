@@ -21,17 +21,23 @@ const App = () => {
     },
   ];
 
+  const [searchTerm, setSearchTerm] = useState('');
+
   const handleSearch = (event) => {
-    console.log(event.target.value)
+    setSearchTerm(event.target.value);
   };
+
+  const searchedStories = stories.filter((story) => (
+    story.title.includes(searchTerm)
+  ));
 
   return (
     <div>
       <h1>My Hacker Stories</h1>
-      <Search onSearch={handleSearch} />
+      <Search onSearch={handleSearch} searchTerm={searchTerm}/>
       <Button />
       <hr />
-      <List list={stories} />
+      <List list={searchedStories} />
       {/* render the list here */}
       {/* this is how comments in JSX are made */}
     </div>
@@ -76,23 +82,16 @@ const Button = () => {
 
 const Search = (props) => {
 
-const [searchTerm, setSearchTerm] = useState('');
-
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
-    props.onSearch(event);
-  };
-
   return (
     <div>
       {console.log('Search renders')}
       <label htmlFor="search">Search: </label>
-      <input id="search" type="text" onChange={handleChange} />
+      <input id="search" type="text" onChange={props.onSearch} />
 
 
       <p>
-        Searching for <strong>{searchTerm}</strong>
-      </p>
+        Searching for <strong>{props.searchTerm}</strong>
+  </p>
     </div>
   );
 };
