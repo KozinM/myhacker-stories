@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 
 const App = () => {
   const stories = [
@@ -24,6 +25,7 @@ const App = () => {
     <div>
       <h1>My Hacker Stories</h1>
       <Search />
+      <Button />
       <hr />
       <List list={stories} />
       {/* render the list here */}
@@ -37,6 +39,7 @@ export default App;
 const List = (props) => {
   return (
     <ul>
+      {console.log('App renders')}
       {props.list.map((item) => (
         <Item key={item.objectID} item={item} />
       ))}
@@ -47,6 +50,7 @@ const List = (props) => {
 const Item = (props) => {
   return (
     <li>
+      {console.log('Item renders')}
       <span>
         <a href="{item.url}">{props.item.title}</a>
       </span>
@@ -57,15 +61,33 @@ const Item = (props) => {
   );
 };
 
+const Button = () => {
+  const clickOnButtonHandler = () => {
+    console.clear();
+  }
+  return (
+    <button onClick={clickOnButtonHandler}>Clear console</button>
+  );
+}
+
 const Search = () => {
+
+const [searchTerm, setSearchTerm] = useState('');
+
   const handleChange = (event) => {
-    console.log(event.target.value);
+    setSearchTerm(event.target.value);
   };
 
   return (
     <div>
+      {console.log('Search renders')}
       <label htmlFor="search">Search: </label>
       <input id="search" type="text" onChange={handleChange} />
+
+
+      <p>
+        Searching for <strong>{searchTerm}</strong>
+      </p>
     </div>
   );
 };
