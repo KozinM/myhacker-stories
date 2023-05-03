@@ -46,27 +46,34 @@ const App = () => {
 
 export default App;
 
-const List = (props) => {
+const List = ({list}) => {
   return (
     <ul>
-      {console.log("App renders")}
-      {props.list.map((item) => (
-        <Item key={item.objectID} item={item} />
+      {list.map(({objectID, ...item}) => (
+        <Item 
+        key={objectID} 
+        {...item}
+        />
       ))}
     </ul>
   );
 };
 
-const Item = (props) => {
+const Item = ({
+  title,
+  url,
+  author,
+  num_comments,
+  points,
+}) => {
   return (
     <li>
-      {console.log("Item renders")}
       <span>
-        <a href="{item.url}">{props.item.title}</a>
+        <a href={url}>{title}</a>
       </span>
-      <span>{props.item.author}</span>
-      <span>{props.item.num_comments}</span>
-      <span>{props.item.points}</span>
+      <span>{author}</span>
+      <span>{num_comments}</span>
+      <span>{points}</span>
     </li>
   );
 };
@@ -78,19 +85,18 @@ const Button = () => {
   return <button onClick={clickOnButtonHandler}>Clear console</button>;
 };
 
-const Search = (props) => {
+const Search = ({searchTerm, onSearch}) => {
   return (
     <div>
-      {console.log("Search renders")}
       <label htmlFor="search">Search: </label>
       <input
         id="search"
         type="text"
-        value={props.searchTerm}
-        onChange={props.onSearch}
+        value={searchTerm}
+        onChange={onSearch}
       />
       <p>
-        Searching for <strong>{props.searchTerm}</strong>
+        Searching for <strong>{searchTerm}</strong>
       </p>
     </div>
   );
