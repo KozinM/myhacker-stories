@@ -21,20 +21,20 @@ const App = () => {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("React");
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const searchedStories = stories.filter((story) => (
-    story.title.includes(searchTerm)
-  ));
+  const searchedStories = stories.filter((story) =>
+    story.title.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+  );
 
   return (
     <div>
       <h1>My Hacker Stories</h1>
-      <Search onSearch={handleSearch} searchTerm={searchTerm}/>
+      <Search onSearch={handleSearch} searchTerm={searchTerm} />
       <Button />
       <hr />
       <List list={searchedStories} />
@@ -49,7 +49,7 @@ export default App;
 const List = (props) => {
   return (
     <ul>
-      {console.log('App renders')}
+      {console.log("App renders")}
       {props.list.map((item) => (
         <Item key={item.objectID} item={item} />
       ))}
@@ -60,7 +60,7 @@ const List = (props) => {
 const Item = (props) => {
   return (
     <li>
-      {console.log('Item renders')}
+      {console.log("Item renders")}
       <span>
         <a href="{item.url}">{props.item.title}</a>
       </span>
@@ -74,24 +74,24 @@ const Item = (props) => {
 const Button = () => {
   const clickOnButtonHandler = () => {
     console.clear();
-  }
-  return (
-    <button onClick={clickOnButtonHandler}>Clear console</button>
-  );
-}
+  };
+  return <button onClick={clickOnButtonHandler}>Clear console</button>;
+};
 
 const Search = (props) => {
-
   return (
     <div>
-      {console.log('Search renders')}
+      {console.log("Search renders")}
       <label htmlFor="search">Search: </label>
-      <input id="search" type="text" onChange={props.onSearch} />
-
-
+      <input
+        id="search"
+        type="text"
+        value={props.searchTerm}
+        onChange={props.onSearch}
+      />
       <p>
         Searching for <strong>{props.searchTerm}</strong>
-  </p>
+      </p>
     </div>
   );
 };
