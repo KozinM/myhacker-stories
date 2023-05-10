@@ -20,7 +20,7 @@ const App = () => {
     },
   ];
 
-/*   const [searchTerm, setSearchTerm] = useState(
+  /*   const [searchTerm, setSearchTerm] = useState(
     localStorage.getItem('searchTerm')??"React");
 
   React.useEffect(()=>{
@@ -32,16 +32,13 @@ const App = () => {
       localStorage.getItem(key) || initialState
     );
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
       localStorage.setItem(key, value);
     }, [value, key]);
     return [value, setValue];
-    };
+  };
 
-  const [searchTerm, setSearchTerm] = useSemiPersistentState(
-    'search',
-    'React'
-    );
+  const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -55,11 +52,12 @@ const App = () => {
     <div>
       <h1>My Hacker Stories</h1>
       <InputWithLabel
-      id="search"
-      label="search"
-      value={searchTerm}
-      onInputChange={handleSearch} 
-      />
+        id="search"
+        value={searchTerm}
+        onInputChange={handleSearch}
+      >
+        <strong>Search:</strong>
+        </InputWithLabel>
       <Button />
       <hr />
       <List list={searchedStories} />
@@ -71,26 +69,17 @@ const App = () => {
 
 export default App;
 
-const List = ({list}) => {
+const List = ({ list }) => {
   return (
     <ul>
-      {list.map(({objectID, ...item}) => (
-        <Item 
-        key={objectID} 
-        {...item}
-        />
+      {list.map(({ objectID, ...item }) => (
+        <Item key={objectID} {...item} />
       ))}
     </ul>
   );
 };
 
-const Item = ({
-  title,
-  url,
-  author,
-  num_comments,
-  points,
-}) => {
+const Item = ({ title, url, author, num_comments, points }) => {
   return (
     <li>
       <span>
@@ -110,16 +99,11 @@ const Button = () => {
   return <button onClick={clickOnButtonHandler}>Clear console</button>;
 };
 
-const InputWithLabel = ({id, label, value, onInputChange}) => {
+const InputWithLabel = ({ id, value, onInputChange, children }) => {
   return (
     <>
-      <label htmlFor={id}>{label}: </label>
-      <input
-        id={id}
-        type="text"
-        value={value}
-        onChange={onInputChange}
-      />
+      <label htmlFor={id}>{children}</label>
+      <input id={id} type="text" value={value} onChange={onInputChange} />
       <p>
         Searching for <strong>{value}</strong>
       </p>
