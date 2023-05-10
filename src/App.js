@@ -107,7 +107,7 @@ const Button = () => {
 
 const Search = ({searchTerm, onSearch}) => {
   return (
-    <div>
+    <>
       <label htmlFor="search">Search: </label>
       <input
         id="search"
@@ -118,6 +118,6 @@ const Search = ({searchTerm, onSearch}) => {
       <p>
         Searching for <strong>{searchTerm}</strong>
       </p>
-    </div>
+    </>
   );
 };
