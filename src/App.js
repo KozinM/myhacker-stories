@@ -20,11 +20,18 @@ const initialStories = [
 ];
 
 const getAsyncStories = () => {
-  return new Promise ((resolve)=>
-  setTimeout(()=>resolve({data: {stories: initialStories}}), 
-  3000
+  const fetchResult=Math.random();
+  if (fetchResult>=0.5) {
+    return new Promise ((resolve)=>
+    setTimeout(()=>resolve({data: {stories: initialStories}}), 
+    3000
   )
-  )
+  )}
+  return Promise.reject((reject)=>
+  setTimeout(()=>reject("It's an Error!"), 
+  3000)
+)
+  
 };
 
 
@@ -47,14 +54,25 @@ const App = () => {
     }, [value, key]);
     return [value, setValue];
   };
-
+  //custom hook
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
 
+  //React's state hooks
   const [stories, setStories] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isError, setIsError] = React.useState(false);
 
   React.useEffect(()=>{
+    setIsLoading(true);
+
+    //mocking fetch  
     getAsyncStories().then(result=>{
       setStories(result.data.stories);
+      setIsLoading(false);
+    })
+    .catch(()=>{
+      setIsError(true); 
+      setIsLoading(false)
     });
   },[]);
 
@@ -84,7 +102,14 @@ const App = () => {
         </InputWithLabel>
       <Button />
       <hr />
-      <List list={searchedStories}  onRemoveItem={handleRemoveStory}/>
+      {isError && <p>Something went wrong ...</p>}
+      {isLoading ? (
+        <p>Loading ...</p>
+      ):(
+      <List 
+        list={searchedStories}  
+        onRemoveItem={handleRemoveStory}/>      
+      )}
       {/* render the list here */}
       {/* this is how comments in JSX are made */}
     </div>
